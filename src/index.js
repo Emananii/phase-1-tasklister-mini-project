@@ -1,49 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /*the Document Object Model represents the structure of a html document and represents tags
-  as nodes. We can use Javascript to manipulate these nodes*/
-
-  // console.log(document.URL)
-  // console.log(document.title)
-  // console.log(window.innerHeight)
-
-  // document.title = "I own this bitch";
-  // console.log(document.title)
-
-
-/** the getElementById method helps us select a node using it's Id so that we can then
- * do whatever we want with it.
- */ 
-
-// const obj = {
-//   //key  value => property
-//   name: "Paul Ashton",
-//   age: "Is a vampire"
-// }
-
-// //selecting html elements/tags
-// let textBox = document.getElementById("new-task-description");
-// console.log(document.getElementById("new-task-description"));
-
-
-//  let button = document.getElementById("submit");
-//  console.log(document.getElementById("submit"));
-
-// let taskInput = document.getElementById("new-task-description")
-
-// //Understanding event listeners
-// //  taskInput.addEventListener("input", ()=>{
-// //   console.log("User is typing: " + taskInput.value)});
-
-
+ 
 const taskForm = document.getElementById("create-task-form");
 const newTaskInput = document.getElementById("new-task-description");
 const unorderedTaskList = document.getElementById("tasks"); 
-const taskPriority = document.querySelector("select");
+const taskPriority = document.getElementById("priority");
 const taskDueDate = document.getElementById("due-date");
 
 //add an Event Listener to listen for user's actions
 taskForm.addEventListener("submit", (event) =>{
   event.preventDefault(); //prevents form from refreshing the page
+  console.log("Submit event fired!");//debugger
 
   //save user input in this variable
   const userText = newTaskInput.value; //better to use a new variable for readability and efficience, since we only access the DOM once
@@ -53,8 +19,8 @@ taskForm.addEventListener("submit", (event) =>{
 
   //create a new list item
   const newTaskListed = document.createElement("li");
-  newTaskListed.innerText =`${userText} - Due: ${userDueDate || "No due date"}`; //this now saves whatever the user entered into the newly created list tag
-                            //userText "- Due:" userDueDate|| "No due date"
+  newTaskListed.innerText =`${userText.trim()} - Due: ${userDueDate.trim() || "No due date"}`; //this now saves whatever the user entered into the newly created list tag
+  console.log("Task List Inner HTML:", unorderedTaskList.innerHTML);//debugger to see ul innerhtml
   //set color based on priority
   switch (userPriority) {
     case "high":
@@ -68,21 +34,21 @@ taskForm.addEventListener("submit", (event) =>{
       break;
   }
 
-  //DOM(the html document) & Javascript(only stored in memory)
+ //append the new listed item to the unordered list
+ unorderedTaskList.appendChild(newTaskListed);//connect the <li> in memory to the <ul> in the DOM
+ console.log("UL element found:", unorderedTaskList);//debugger
+ console.log("Task added:", newTaskListed.innerText);//debugger
 
-  //append the new listed item to the unordered list
-  unorderedTaskList.appendChild(newTaskListed);//connect the <li> in memory to the <ul> in the DOM
-  
 //create delete button
 const deleteButton = document.createElement("button");
 deleteButton.innerText = "Delete";
 
 //add an event listener to the delete button
 deleteButton.addEventListener("click", () =>{
-  unorderedTaskList.removeChild(newTaskListed)}); //remove the task from the list
+unorderedTaskList.removeChild(newTaskListed)}); //remove the task from the list
 
 //append the delete button to the new task listed
-newTaskListed.append(deleteButton);
+newTaskListed.appendChild(deleteButton);
 
 //create edit button
 const editButton = document.createElement("button");
@@ -99,6 +65,4 @@ editButton.addEventListener("click", () =>{
 newTaskListed.appendChild(editButton);
   taskForm.reset();
 });
-  
-
 });

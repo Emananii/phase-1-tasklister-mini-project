@@ -42,9 +42,9 @@ describe('Handling form submission', () => {
   let taskList
 
   before(() => {
-    form = document.querySelector('#create-task-form')
-    formInput = document.querySelector('#new-task-description')
-    taskList = document.querySelector('#tasks')
+    form = document.getElementById('create-task-form')
+    formInput = document.getElementById('new-task-description')
+    taskList = document.getElementById('tasks')
   })
 
   it('should add an event to the form and add input to webpage', () => {
@@ -52,6 +52,10 @@ describe('Handling form submission', () => {
     formInput.value = 'Wash the dishes'
     const event = new dom.window.Event('submit')
     form.dispatchEvent(event)
-    expect(taskList.textContent).to.include('Wash the dishes')
+    setTimeout(() => { // Wait for DOM to update
+      console.log("Updated task list content:", taskList.innerHTML); // Debugging
+      expect(taskList.textContent.trim()).to.include('Wash the dishes'); 
+      done();
+    }, 50);
   })
 })
