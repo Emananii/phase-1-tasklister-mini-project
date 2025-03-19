@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
- 
-const taskForm = document.getElementById("create-task-form");
+
+const taskForm = document.getElementById("create-task-form"); //for readability and for effience
 const newTaskInput = document.getElementById("new-task-description");
 const unorderedTaskList = document.getElementById("tasks"); 
 const taskPriority = document.getElementById("priority");
 const taskDueDate = document.getElementById("due-date");
+
+
 
 //add an Event Listener to listen for user's actions
 taskForm.addEventListener("submit", (event) =>{
@@ -19,7 +21,7 @@ taskForm.addEventListener("submit", (event) =>{
 
   //create a new list item
   const newTaskListed = document.createElement("li");
-  newTaskListed.innerText =`${userText.trim()} - Due: ${userDueDate.trim() || "No due date"}`; //this now saves whatever the user entered into the newly created list tag
+  newTaskListed.textContent =`${userText.trim()} - Due: ${userDueDate.trim() || "No due date"}`; //this now saves whatever the user entered into the newly created list tag
   console.log("Task List Inner HTML:", unorderedTaskList.innerHTML);//debugger to see ul innerhtml
   //set color based on priority
   switch (userPriority) {
@@ -37,11 +39,11 @@ taskForm.addEventListener("submit", (event) =>{
  //append the new listed item to the unordered list
  unorderedTaskList.appendChild(newTaskListed);//connect the <li> in memory to the <ul> in the DOM
  console.log("UL element found:", unorderedTaskList);//debugger
- console.log("Task added:", newTaskListed.innerText);//debugger
+ console.log("Task added:", newTaskListed.textContent);//debugger
 
 //create delete button
 const deleteButton = document.createElement("button");
-deleteButton.innerText = "Delete";
+deleteButton.textContent = "Delete";
 
 //add an event listener to the delete button
 deleteButton.addEventListener("click", () =>{
@@ -52,13 +54,14 @@ newTaskListed.appendChild(deleteButton);
 
 //create edit button
 const editButton = document.createElement("button");
-editButton.innerText = "Edit";
+editButton.textContent = "Edit";
 
 //add an event listener to the edit button
 editButton.addEventListener("click", () =>{
   const newText = prompt("Edit your task:", userText);
     if (newText !== null && newText !== "") {
-      newTaskListed.firstChild.textContent = `${newText} - Due: ${userDueDate || "No due date"}`;
+      newTaskListed.childNodes[0].textContent = `${newText} - Due: ${userDueDate || "No due date"}`;
+      console.log("Task edited:", newTaskListed.innerText);//debugger
     }
 });
 //append the edit button to the new task listed
